@@ -1,5 +1,7 @@
 # Kalshi and the Institutionalization of Macro Prediction Markets
 
+PErHAPS RECREATE ORIGINAL AND THEN DO THIS
+
 This project extends **Diercks, Katz, and Wright (2026), "Kalshi and the Rise of
 Macro Markets,"** Finance and Economics Discussion Series 2026-010, Federal
 Reserve Board (the "FEDS paper"). A copy is included at
