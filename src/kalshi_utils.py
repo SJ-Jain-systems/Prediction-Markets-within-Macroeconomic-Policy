@@ -114,3 +114,87 @@ def forecast_error_by_horizon(
     abs_error = (df[value_col] - realized_value).abs()
 
     return pd.DataFrame({"days_before_event": days_before, "abs_error": abs_error}).reset_index(drop=True)
+
+
+def candlesticks_to_daily_ladder(
+    candles_by_strike: dict[float, pd.DataFrame],
+    price_col: str = "yes_price",
+    date_col: str = "date",
+) -> pd.DataFrame:
+    """
+    Assemble a per-day strike ladder from one candlestick series per strike
+    and run `ladder_to_pdf` on each day, producing the daily mean/median/mode
+    frame that Figure 1 (and the notebooks) consume.
+
+    This closes the gap that `notebooks/01_figure1_replication.ipynb` flags in
+    its "Next steps" cell: `kalshi_api.get_market_candlesticks` returns one
+    OHLC-style frame *per market (strike)*, but `ladder_to_pdf` needs one
+    ladder *per day*. This helper does the pivot-and-convert in between.
+
+    Parameters
+    ----------
+    candles_by_strike : dict[float, pd.DataFrame]
+        Maps each strike threshold (e.g. 4.25) to a DataFrame that has, at
+        minimum, a date column and a daily "Yes" price column (0-1). The
+        natural way to build this is to loop over the strike markets in a
+        Kalshi event, call `kalshi_api.get_market_candlesticks` for each,
+        and reduce each candle to its daily "Yes" price (e.g. the daily
+        close). Strikes are read from the dict keys, so they need not be
+        pre-sorted.
+    price_col : str
+        Name of the daily "Yes" price column in each per-strike frame.
+    date_col : str
+        Name of the date column in each per-strike frame.
+
+    Returns
+    -------
+    pd.DataFrame
+        One row per date on which *every* strike has a price, with columns
+        ['date', 'mean', 'median', 'mode', 'variance', 'skewness'] — the same
+        column contract emitted by the synthetic generator in notebook 01 and
+        consumed by `forecast_error_by_horizon`.
+
+    Notes
+    -----
+    Verify the live/historical candlestick endpoint split and exact field
+    names against https://docs.kalshi.com before trusting a real pull -- the
+    same caveat documented at the top of ``kalshi_api.py`` applies here
+    (Kalshi split market data into "live" and "historical" tiers effective
+    February 2026). Days on which any strike is missing a price are dropped,
+    because a partial ladder cannot be converted without imputation.
+    """
+    if not candles_by_strike:
+        raise ValueError("candles_by_strike is empty")
+
+    strikes = sorted(candles_by_strike.keys())
+
+    # Build a wide date x strike table of Yes prices.
+    series_by_strike = {}
+    for strike in strikes:
+        frame = candles_by_strike[strike]
+        if date_col not in frame.columns or price_col not in frame.columns:
+            raise ValueError(
+                f"strike {strike}: frame must contain '{date_col}' and '{price_col}' columns"
+            )
+        s = frame.set_index(pd.to_datetime(frame[date_col]))[price_col]
+        s = s[~s.index.duplicated(keep="last")]  # one price per day
+        series_by_strike[strike] = s
+
+    wide = pd.DataFrame(series_by_strike)  # index=date, columns=strikes
+    wide = wide.sort_index().dropna(how="any")  # keep only fully-populated ladders
+
+    rows = []
+    for date, ladder in wide.iterrows():
+        dist = ladder_to_pdf(list(strikes), [float(ladder[k]) for k in strikes])
+        rows.append(
+            {
+                "date": date,
+                "mean": dist.mean,
+                "median": dist.median,
+                "mode": dist.mode,
+                "variance": dist.variance,
+                "skewness": dist.skewness,
+            }
+        )
+
+    return pd.DataFrame(rows)

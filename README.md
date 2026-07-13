@@ -1,7 +1,5 @@
 # Kalshi and the Institutionalization of Macro Prediction Markets
 
-PErHAPS RECREATE ORIGINAL AND THEN DO THIS
-
 This project extends **Diercks, Katz, and Wright (2026), "Kalshi and the Rise of
 Macro Markets,"** Finance and Economics Discussion Series 2026-010, Federal
 Reserve Board (the "FEDS paper"). A copy is included at
@@ -60,7 +58,9 @@ policy process. Five questions follow from that gap:
 kalshi-macro-policy/
 ├── data/                          # raw + processed Kalshi/Polymarket pulls (gitignored by default)
 ├── notebooks/
-│   └── 01_figure1_replication.ipynb   # baseline: replicates FEDS Figure 1 methodology
+│   ├── 01_figure1_replication.ipynb    # baseline: replicates FEDS Figure 1 methodology
+│   ├── 02_liquidity_comparison.ipynb   # new: thin-market volume/OI by series (grounds section 3)
+│   └── 03_polymarket_comparison.ipynb  # new: Kalshi vs. Polymarket Figure-1-style (grounds section 5)
 ├── paper/
 │   └── sections/
 │       ├── 1_background.md            # framing vs. the FEDS paper
@@ -70,8 +70,10 @@ kalshi-macro-policy/
 │       ├── 5_polymarket_comparison.md # new: regulated vs. unregulated signal quality
 │       └── 6_policy_recommendation.md # new: the actual proposal
 ├── src/
-│   ├── kalshi_utils.py            # ladder-of-strikes -> pdf -> mean/median/mode (paper's Section 3 method)
-│   └── kalshi_api.py              # thin client for Kalshi's public market-data API
+│   ├── kalshi_utils.py            # ladder-of-strikes -> pdf -> mean/median/mode (paper's Section 3 method);
+│   │                              #   candlesticks_to_daily_ladder bridges the API to the pdf pipeline
+│   ├── kalshi_api.py              # thin client for Kalshi's public market-data API
+│   └── polymarket_api.py          # new: thin read-only client for Polymarket (Gamma + CLOB), for section 5
 ├── references/
 │   └── diercks_katz_wright_2026.pdf
 ├── requirements.txt
@@ -86,29 +88,52 @@ pip install -r requirements.txt
 jupyter notebook notebooks/01_figure1_replication.ipynb
 ```
 
-The notebook ships with a **synthetic data generator** so it runs end to end
-with no credentials. Swap in real pulls via `src/kalshi_api.py` (Kalshi's
-market-data endpoints are public and unauthenticated) once you're ready to
-reproduce Figure 1 on real trade-level data. See `paper/sections/2_replication.md`
-for what a faithful replication additionally needs (NY Fed SME PDFs,
-Bloomberg consensus — the latter is proprietary and will need a substitute
-or a data-sharing arrangement).
+All three notebooks ship with a **synthetic data generator** so they run end
+to end with no credentials and no network. Swap in real pulls via
+`src/kalshi_api.py` / `src/polymarket_api.py` (both platforms' market-data
+endpoints are public and unauthenticated) once you're ready to reproduce
+Figure 1, the liquidity comparison, and the Polymarket comparison on real
+trade-level data. See `paper/sections/2_replication.md` for what a faithful
+replication additionally needs (NY Fed SME PDFs, Bloomberg consensus — the
+latter is proprietary and will need a substitute or a data-sharing
+arrangement).
+
+## Network / data access
+
+The Kalshi and Polymarket market-data endpoints are public and unauthenticated,
+but they are **external services**. Restricted or sandboxed environments (CI,
+locked-down egress policies) may block `api.kalshi.com` and
+`gamma-api.polymarket.com` — the notebooks are written to fall back to synthetic
+data so they still run there. To pull *real* data, run them in an environment
+with outbound HTTPS access to those hosts, and flip the `USE_REAL_DATA` flag in
+notebooks 02/03 (and swap the synthetic generator in notebook 01). The Kalshi
+client also carries a caveat about the live/historical endpoint split (Feb 2026)
+and token-bucket rate limiting (Apr 2026) — verify current paths against
+https://docs.kalshi.com before a large pull.
 
 ## Suggested order of work
 
-1. Run the notebook as-is (synthetic data) to confirm the pipeline works.
-2. Point `kalshi_api.py` at real Kalshi fed funds rate series and re-run —
-   this gives you an actual replication of Figure 1, which anchors
-   `2_replication.md`.
+1. Run the notebooks as-is (synthetic data) to confirm the pipelines work.
+2. Point `kalshi_api.py` at real Kalshi fed funds rate series and re-run
+   notebook 01 — this gives you an actual replication of Figure 1, which
+   anchors `2_replication.md`. Use `kalshi_utils.candlesticks_to_daily_ladder`
+   to turn per-strike candlesticks into the daily ladder the figure needs.
 3. Pull volume/open-interest data for the *thin* series (GDP, recession
-   probability, core CPI annual) the same way, to ground
+   probability, core CPI annual) via notebook 02, to ground
    `3_manipulation_risk.md` in real numbers instead of the FEDS paper's
    qualitative treatment.
-4. Research and draft `4_institutional_pathway.md` and
-   `5_polymarket_comparison.md` (these are literature/policy sections, not
-   data sections — see the outlines already in each file).
-5. Write `6_policy_recommendation.md` last, once 3–5 give you concrete
-   evidence to cite in the safeguards.
+4. Pull overlapping Polymarket FOMC markets via `polymarket_api.py` and run
+   notebook 03 for the regulated-vs-unregulated comparison in
+   `5_polymarket_comparison.md`.
+5. Research and firm up `4_institutional_pathway.md` (FOMC minutes, speeches,
+   MPR — the source-verification `[DATA PLACEHOLDER]` items) — a literature/
+   policy section, not a data section.
+6. Finalize `6_policy_recommendation.md` last, once 3–5 give you concrete
+   evidence to set the safeguard thresholds.
+
+The section drafts are complete prose with `[DATA PLACEHOLDER]` callouts
+marking every spot where a real number or a source-verified citation must be
+swapped in once the corresponding data pull is done.
 
 ## Citation
 

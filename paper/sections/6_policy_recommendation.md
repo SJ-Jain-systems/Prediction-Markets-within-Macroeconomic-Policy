@@ -1,58 +1,96 @@
 # 6. Policy Recommendation
 
-*Status: new section, and the actual differentiator of this project. The
-FEDS paper stops at "this is an accurate forecasting tool." This section
-should not stop there.*
+The FEDS paper ends where academic papers usually end: "this is an accurate
+forecasting tool… our goal is to facilitate further research" (p.4). That is
+the right ending for a validation paper. It is the wrong ending for this one.
+The whole point of the project is to take the one step the FEDS paper declines
+to take — from "Kalshi is accurate" to "here is specifically how, and under
+what conditions, a central bank should use it" — and to commit to a concrete,
+falsifiable recommendation rather than hedging into "more research is needed."
 
-## Working thesis to develop and defend
+## Thesis
 
-> A Kalshi-based distributional dashboard should **supplement, not
-> replace**, existing Fed expectations tools (SME, Bloomberg consensus,
-> SPF, fed funds futures), and should only be cited in official
-> communications or publications once three safeguards are in place.
+> A Kalshi-based distributional dashboard should **supplement, not replace**,
+> existing Fed expectations tools (SME, Bloomberg consensus, SPF, fed funds
+> futures), and a given series should be cited in official communications or
+> publications only once three safeguards are in place.
 
-## Draft safeguards (refine with evidence from Sections 3–5 before finalizing)
+Supplement-not-replace is not timidity; it is the correct relationship. The
+FEDS paper's own results show Kalshi is *comparable to*, not dominant over,
+professional forecasters on most series — statistically similar to Bloomberg
+for core CPI and unemployment, better for headline CPI, on par with the SME
+for the fed funds rate (Sections 2, 4 of the FEDS paper). An instrument that
+ties or modestly beats the incumbents, updates continuously, and adds a full
+distribution is a valuable *addition* to the panel, not a replacement for it.
 
-1. **A minimum liquidity/volume floor before a series is citable.**
-   Grounded in Section 3's thin-market findings: the FFR series (hundreds
-   of millions in volume, per the FEDS paper's own Figure 3) is a very
-   different animal from a GDP or recession-probability series with a
-   two-to-four-year listing history. Propose a concrete threshold (e.g.,
-   minimum open interest or trailing 7-day volume) below which a contract's
-   price should not be treated as a citable expectations measure — modeled
-   loosely on how the Fed already treats sparse or thin financial-market
-   data with caution.
+## Three safeguards
+
+Each safeguard is grounded in an earlier section's finding, so the
+recommendation follows from this project's evidence rather than from taste.
+
+1. **A minimum liquidity/volume floor before a series is citable.** Grounded in
+   Section 3. The fed funds rate series (hundred-million-contract volumes,
+   FEDS Figure 3) is a fundamentally different object from a GDP or
+   recession-probability series with a two-to-four-year history and a
+   correspondingly shallow book. Propose a concrete threshold — e.g., a minimum
+   open interest or trailing 7-day volume — below which a contract's price is
+   *not* treated as a citable expectations measure, modeled on how the Fed
+   already treats thin or sparse financial-market data with explicit caution.
+
+   > **[DATA PLACEHOLDER]** Set the numeric threshold from Section 3's
+   > cost-to-move and liquidity results (`notebooks/02`), so the floor is
+   > calibrated to "deep enough that a $7M position cannot move the implied
+   > probability by more than a few points," not chosen arbitrarily.
+
 2. **Position-concentration monitoring in the pre-FOMC window**, leveraging
    Kalshi's existing CFTC large-trader reporting obligations as a DCM.
-   Concretely: flag (internally, not necessarily publicly) any FOMC-week
-   price move attributable to a small number of large accounts before that
-   move is treated as informative "market expectations" rather than one
-   trader's bet.
+   Concretely: internally flag any FOMC-week price move attributable to a small
+   number of large accounts *before* that move is treated as informative
+   "market expectations" rather than one trader's bet. This directly answers
+   the narrative-shaping scenario in Section 3 — the risk is not (only) illegal
+   insider trading but a legal, headline-seeking large bet in a thin market —
+   and it uses regulatory infrastructure that already exists for a DCM and does
+   not exist for Polymarket (Section 5).
+
 3. **Distributional framing, not point-estimate framing, with an explicit
-   disclaimer.** Present mean/median/mode/variance/skew together (as the
-   FEDS paper's own methodology naturally supports) rather than a single
-   headline number, and label it clearly as a retail-market-derived
-   measure — "what traders are pricing," not "what the Fed expects" —
-   preserving the separation the Fed currently maintains between
-   market-implied and staff/SEP-based projections. This directly answers
-   the optics question in Section 4/5: officials can reference it the way
-   they already reference fed funds futures probabilities, without implying
-   endorsement of betting markets as a policy input.
+   disclaimer.** Present mean/median/mode/variance/skew together — which the
+   FEDS paper's own methodology naturally supports — rather than a single
+   headline number, and label it clearly as a *retail-market-derived* measure:
+   "what traders are pricing," not "what the Fed expects." This preserves the
+   separation the Fed already maintains between market-implied measures and
+   staff/SEP projections, and it answers the optics question from Sections 4–5:
+   an official could reference it the way they already reference fed funds
+   futures probabilities, without implying endorsement of betting markets as a
+   policy input.
 
-## Recommended concrete format
+## Recommended concrete first step
 
-Propose a specific, minimal first step rather than a sweeping one — e.g.:
-a quarterly appendix chart in the Monetary Policy Report, or a NY Fed
-markets-desk-style public webpage (paralleling how SOFR/repo data is
-published), sourced explicitly to Kalshi with the three safeguards above
-noted alongside it. This is deliberately more conservative than "cite it in
-FOMC statements" — justify why, using the legitimacy/optics analysis from
-whichever framing Section 4/5 land on.
+Propose the *minimal* defensible step, not a sweeping one. Concretely, one of:
 
-## What this section must NOT do
+- a **quarterly appendix chart in the Monetary Policy Report** showing the
+  Kalshi-implied fed funds distribution alongside the existing market-based
+  measures, explicitly sourced to Kalshi with the three safeguards noted
+  alongside; or
+- a **NY Fed markets-desk-style public webpage**, paralleling how SOFR and repo
+  reference data are already published, carrying only series that clear the
+  liquidity floor and labeled as a retail-market measure.
 
-Don't hedge into "more research is needed" as the final word — that's the
-default academic ending the FEDS paper itself effectively takes ("our goal
-is to facilitate further research," p.4). The whole point of this project
-is to go one step further and commit to a specific, falsifiable
-recommendation, even a modest one.
+This is deliberately more conservative than "cite it in the FOMC statement."
+The justification is the legitimacy/optics analysis of Sections 4–5: rung (c)
+communications-level citation raises the "central bank points at a market
+betting on its own decisions" problem in its sharpest form, while a sourced,
+safeguarded, clearly-labeled *data product* (rung (d) done carefully, or a
+modest MPR appendix) delivers most of the value at much lower legitimacy risk.
+Concretely, it moves Kalshi from rung (a)–(b) to a guarded (d)-flavored data
+product without ever passing through the riskiest (c) form.
+
+## What this section must not do
+
+It must not end on "more research is needed." That is the FEDS paper's own
+ending, and reproducing it would defeat the project's purpose. The
+recommendation above is specific and falsifiable: a named instrument
+relationship (supplement, not replace), three named safeguards each tied to an
+empirical finding, and one concrete minimal first step. Where the numbers are
+not yet filled in (the liquidity threshold, the concentration-flag trigger),
+the *mechanism* is still committed to — the placeholders set the value, not
+whether the safeguard exists.
