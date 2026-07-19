@@ -1,5 +1,8 @@
 # Kalshi and the Institutionalization of Macro Prediction Markets
 
+[![CI](https://github.com/sj-jain-systems/prediction-markets-within-macroeconomic-policy/actions/workflows/ci.yml/badge.svg)](https://github.com/sj-jain-systems/prediction-markets-within-macroeconomic-policy/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 This project extends **Diercks, Katz, and Wright (2026), "Kalshi and the Rise of
 Macro Markets,"** Finance and Economics Discussion Series 2026-010, Federal
 Reserve Board (the "FEDS paper"). A copy is included at
@@ -74,8 +77,19 @@ kalshi-macro-policy/
 │   │                              #   candlesticks_to_daily_ladder bridges the API to the pdf pipeline
 │   ├── kalshi_api.py              # thin client for Kalshi's public market-data API
 │   └── polymarket_api.py          # new: thin read-only client for Polymarket (Gamma + CLOB), for section 5
+│                                  #   (src/ is installed as importable modules via pyproject.toml)
+├── tests/                        # new: pytest suite for the src/ pipeline
+│   ├── test_kalshi_utils.py      #   ladder->pdf, daily ladder, forecast-error helper
+│   └── test_api_clients.py       #   URL building, pagination, retry wiring (HTTP mocked)
+├── docs/
+│   └── data_schema.md            # new: shapes a real Kalshi/Polymarket pull must have
 ├── references/
 │   └── diercks_katz_wright_2026.pdf
+├── .github/workflows/ci.yml      # new: lint + tests + offline notebook execution
+├── .pre-commit-config.yaml       # new: ruff, ruff-format, nbstripout
+├── pyproject.toml                # new: packaging + ruff/pytest config
+├── TODO.md                       # new: [DATA PLACEHOLDER] tracker
+├── LICENSE                       # new: MIT
 ├── requirements.txt
 └── README.md
 ```
@@ -84,9 +98,32 @@ kalshi-macro-policy/
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e .              # installs the src/ modules as importable packages
 jupyter notebook notebooks/01_figure1_replication.ipynb
 ```
+
+Installing with `-e .` puts `kalshi_utils`, `kalshi_api`, and `polymarket_api`
+on the path directly, so imports work from anywhere (the `sys.path.append("../src")`
+line in each notebook is then just a no-network fallback). `pip install -r
+requirements.txt` still works if you only want the runtime dependencies.
+
+## Development
+
+```bash
+pip install -e ".[dev]"      # runtime deps + pytest, ruff, nbconvert, pre-commit
+pytest                       # unit tests for the src/ pipeline (tests/)
+ruff check .                 # lint
+pre-commit install           # optional: run ruff + nbstripout on every commit
+```
+
+`.github/workflows/ci.yml` runs the linter, the tests, and executes all three
+notebooks offline (synthetic data, no network) on Python 3.11 and 3.12, so a
+broken pipeline or notebook is caught in CI.
+
+See [`TODO.md`](TODO.md) for the tracker of every `[DATA PLACEHOLDER]` in the
+paper drafts (which notebook / pull fills each), and
+[`docs/data_schema.md`](docs/data_schema.md) for the exact shape a real Kalshi /
+Polymarket pull must have to drop into the `src/` helpers.
 
 All three notebooks ship with a **synthetic data generator** so they run end
 to end with no credentials and no network. Swap in real pulls via
@@ -134,6 +171,13 @@ https://docs.kalshi.com before a large pull.
 The section drafts are complete prose with `[DATA PLACEHOLDER]` callouts
 marking every spot where a real number or a source-verified citation must be
 swapped in once the corresponding data pull is done.
+
+## License
+
+Code, notebooks, and prose in this repository are released under the MIT License
+(see [`LICENSE`](LICENSE)), © 2026 SJ-Jain-Systems. The bundled FEDS working
+paper (`references/diercks_katz_wright_2026.pdf`) is a U.S. Federal Reserve Board
+work reproduced for reference under its own terms — cite it via the DOI below.
 
 ## Citation
 
