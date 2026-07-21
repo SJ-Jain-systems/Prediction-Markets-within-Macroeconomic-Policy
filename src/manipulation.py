@@ -33,17 +33,41 @@ import numpy as np
 import kalshi_utils as ku
 
 
-def _shifted_yes_prices(dist: ku.ImpliedDistribution, strikes: np.ndarray, shift: float) -> np.ndarray:
+def _bin_edges(strikes: np.ndarray) -> np.ndarray:
+    """Reconstruct the bin edges ``ladder_to_pdf`` uses (one strike-width tail each side)."""
+    step = np.diff(strikes)
+    outer_step = step[0] if len(step) else 1.0
+    return np.concatenate(([strikes[0] - outer_step], strikes, [strikes[-1] + outer_step]))
+
+
+def _shifted_yes_prices(
+    strikes: np.ndarray, edges: np.ndarray, pmf: np.ndarray, shift: float
+) -> np.ndarray:
     """Yes prices at ``strikes`` if the implied distribution is translated by ``shift``.
 
-    With the pmf placed on ``bin_labels + shift``, the "Yes" price of "exceeds
-    strike s" is the mass sitting strictly above ``s``.
+    Treats each bin's mass as spread **uniformly** over its edge interval -- the
+    same piecewise-uniform-within-bin assumption ``kalshi_utils`` uses for the
+    interpolated median -- so the CDF is piecewise-linear and a horizontal shift
+    of less than one strike-width still registers (a discrete midpoint model
+    would round it to zero). The shifted "Yes" price of "exceeds strike s" is
+    ``1 - F(s - shift)``.
     """
-    shifted_labels = dist.bin_labels + shift
-    return np.array(
-        [float(dist.pmf[shifted_labels > s].sum()) for s in strikes],
-        dtype=float,
-    )
+    cum = np.cumsum(pmf)
+
+    def cdf(x: float) -> float:
+        if x <= edges[0]:
+            return 0.0
+        if x >= edges[-1]:
+            return 1.0
+        j = int(np.searchsorted(edges, x, side="right")) - 1
+        j = min(max(j, 0), len(pmf) - 1)
+        left = float(cum[j - 1]) if j > 0 else 0.0
+        width = edges[j + 1] - edges[j]
+        if width <= 0:
+            return left
+        return left + float(pmf[j]) * (x - edges[j]) / width
+
+    return np.array([1.0 - cdf(float(s) - shift) for s in strikes], dtype=float)
 
 
 def cost_to_move(
@@ -78,7 +102,8 @@ def cost_to_move(
         raise ValueError("depth_dollars must be non-negative")
     strikes_arr = np.asarray(strikes, dtype=float)
     dist = ku.ladder_to_pdf(list(strikes), list(yes_prices))
-    new_yes = _shifted_yes_prices(dist, strikes_arr, float(target_mean_shift))
+    edges = _bin_edges(strikes_arr)
+    new_yes = _shifted_yes_prices(strikes_arr, edges, dist.pmf, float(target_mean_shift))
     price_impact = float(np.sum(np.abs(new_yes - np.asarray(yes_prices, dtype=float))))
     return price_impact * float(depth_dollars)
 
