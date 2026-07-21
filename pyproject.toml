@@ -35,13 +35,21 @@ dev = [
 "Source" = "https://github.com/sj-jain-systems/prediction-markets-within-macroeconomic-policy"
 "FEDS paper" = "https://doi.org/10.17016/FEDS.2026.010"
 
-# Flat-module layout: the three modules live directly under src/ and are
-# imported as top-level modules (kalshi_utils, kalshi_api, polymarket_api).
-# After `pip install -e .` this makes those imports resolve everywhere, so the
-# `sys.path.append("../src")` shim in the notebooks becomes redundant.
+# Flat-module layout: the modules live directly under src/ and are imported as
+# top-level modules (kalshi_utils, kalshi_api, polymarket_api, forecast_eval,
+# manipulation, event_study). After `pip install -e .` this makes those imports
+# resolve everywhere, so the `sys.path.append("../src")` shim in the notebooks
+# becomes redundant.
 [tool.setuptools]
 package-dir = { "" = "src" }
-py-modules = ["kalshi_api", "kalshi_utils", "polymarket_api"]
+py-modules = [
+    "kalshi_api",
+    "kalshi_utils",
+    "polymarket_api",
+    "forecast_eval",
+    "manipulation",
+    "event_study",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
