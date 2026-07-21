@@ -65,24 +65,18 @@ class TestMomentShifts:
         e2 = pd.Timestamp("2026-06-20")
         rel1 = (dates - e1).days
         rel2 = (dates - e2).days
-        # +2 jump around e1, +4 jump around e2 -> ALL average +3.
+        # Baseline 1.0 everywhere; a +2 jump only in e1's post-window and a +4
+        # jump only in e2's post-window keep the two events independent, so the
+        # ALL average is (2 + 4) / 2 = 3.
         variance = np.full(len(dates), 1.0)
-        variance = np.where(rel1 >= 1, variance + 0, variance)
-        base = pd.Series(1.0, index=range(len(dates)))
-        var = base.to_numpy().copy()
-        var[rel1 >= 1] = 3.0  # +2 vs pre=1
-        df1 = _daily_moments(dates, variance=var)
-        out1 = es.moment_shifts(df1, [e1], pre=3, post=3, moments=("variance",))
-        assert out1.iloc[0]["d_variance"] == pytest.approx(2.0)
-
-        var2 = base.to_numpy().copy()
-        var2[rel2 >= 1] = 5.0  # +4 vs pre=1
-        df2 = _daily_moments(dates, variance=var2)
-        combined = df1.copy()
-        combined["variance"] = np.where(rel2 >= 1, var2, np.where(rel1 >= 1, var, 1.0))
-        out = es.moment_shifts(combined, [e1, e2], pre=3, post=3, moments=("variance",))
-        assert out.iloc[-1]["event_date"] == "ALL"
-        assert out.iloc[-1]["d_variance"] == pytest.approx(3.0)
+        variance[(rel1 >= 1) & (rel1 <= 3)] = 3.0  # +2 vs pre=1
+        variance[(rel2 >= 1) & (rel2 <= 3)] = 5.0  # +4 vs pre=1
+        df = _daily_moments(dates, variance=variance)
+        out = es.moment_shifts(df, [e1, e2], pre=3, post=3, moments=("variance",))
+        shifts = out.set_index("event_date")["d_variance"]
+        assert shifts.loc[pd.Timestamp(e1)] == pytest.approx(2.0)
+        assert shifts.loc[pd.Timestamp(e2)] == pytest.approx(4.0)
+        assert shifts.loc["ALL"] == pytest.approx(3.0)
 
     def test_empty_side_gives_nan(self):
         # Only post-window data exists -> pre-window empty -> NaN shift.

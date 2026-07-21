@@ -9,7 +9,6 @@ import pytest
 
 import manipulation as mp
 
-
 # A symmetric fed-funds-style ladder around 4.25.
 STRIKES = [4.00, 4.25, 4.50]
 YES = [0.75, 0.50, 0.25]
