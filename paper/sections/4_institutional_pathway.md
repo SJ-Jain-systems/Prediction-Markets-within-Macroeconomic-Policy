@@ -3,10 +3,13 @@
 The FEDS paper stops at "Kalshi is accurate." It never asks the follow-on
 question: how would the Fed or Treasury actually *use* this data in a decision
 process? That is a question of institutional design, not of forecasting
-accuracy, and answering it is a prerequisite for the concrete recommendation in
-Section 6. This section lays out what formal incorporation would mean, as a
-spectrum from lowest to highest institutional commitment, and asks where
-Kalshi sits today.
+accuracy, and answering it is a prerequisite for the operational channels in
+Section 6 and the concrete recommendation in Section 7. This section lays out
+what formal incorporation would mean, as a spectrum from lowest to highest
+institutional commitment, and asks where Kalshi sits today. Where this section
+maps *who cites the data at what level*, Section 6 maps *what a policymaker
+mechanically does with it* once cited; the two ladders are meant to be read
+together.
 
 ## What the FEDS paper already signals, without saying so explicitly
 
@@ -44,11 +47,13 @@ rise as you move up the ladder:
   conference, the way officials already sometimes reference fed funds futures.
   Medium-high bar — and the first rung that raises the optics question (should
   a central bank point at a market where the public is betting on its own
-  decisions?), which Section 5 and Section 6 take up.
+  decisions?), which Sections 5, 6, and 7 take up — Section 6 shows this is not
+  only an optics problem but a substantive *reflexivity* problem when the market
+  prices the Fed's own decision.
 - **(d) Standing public data feed / dashboard.** An official or
   official-adjacent real-time page — the NY Fed markets-desk model, analogous
   to how the NY Fed publishes SOFR and repo reference rates. Highest bar;
-  requires the safeguards from Section 6 before it would be defensible.
+  requires the safeguards from Section 7 before it would be defensible.
 
 ## Research questions
 
@@ -103,6 +108,8 @@ sourced to specific minutes, speeches, or publications rather than assumption:
 > before publishing; the levels above are the argument's claim, and each needs
 > a source or an explicit acknowledgment that it is an inference.
 
-The through-line to Section 6: Kalshi today sits at roughly rung (a)–(b). The
-recommendation is a *modest, defensible* step up — not a leap to (c)/(d) —
-gated on the safeguards that Sections 3 and 5 make the case for.
+The through-line to Sections 6 and 7: Kalshi today sits at roughly rung
+(a)–(b). Section 6 shows which policy-conduct channels a step up would actually
+serve (and which it should be kept out of), and Section 7's recommendation is a
+*modest, defensible* step up — not a leap to (c)/(d) — gated on the safeguards
+that Sections 3 and 5 make the case for.

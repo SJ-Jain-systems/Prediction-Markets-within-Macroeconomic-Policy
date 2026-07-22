@@ -20,6 +20,43 @@ strike-ladder-to-pdf conversion and the Figure 1 / Table 3 findings live in
 `2_replication.md` and the notebooks. What it establishes here is the frame
 the later sections stand on.
 
+## Why this is a public-policy question, not a market-microstructure one
+
+The FEDS paper's question is empirical: *is Kalshi accurate?* This project's
+question is one of public policy: *given that it is, should a public
+institution build it into how it measures expectations, communicates, and
+conducts policy — and if so, how, and with what protections for the public
+interest?* That reframing carries four stakes the accuracy result alone does
+not settle, and they recur through every later section:
+
+- **Signal integrity as a public good.** If an official process leans on a
+  market-implied number, the accuracy of that number stops being a private
+  matter for traders and becomes a public one — which is what makes the
+  manipulation analysis (Section 3) a governance question, not a curiosity, and
+  what makes the reflexivity problem (Section 6) a first-order risk rather than
+  a footnote.
+- **Democratic legitimacy.** A central bank referencing a market where the
+  public is *betting on the central bank's own decisions* raises a legitimacy
+  question distinct from accuracy: is it appropriate for an unelected
+  institution to point at a betting market as evidence for a public decision?
+  Sections 4–7 treat this as a real constraint on how far up the adoption
+  ladder the instrument should go, not a presentational detail.
+- **Transparency and accountability.** A distributional, continuously-published
+  measure is, in principle, *more* transparent than a proprietary survey
+  consensus or an internal staff judgment — a potential public-interest gain,
+  provided the measure is labeled honestly (a retail-market price, not "what the
+  Fed expects") and safeguarded against capture. That upside is part of the case
+  for careful adoption, and Section 7's recommendation is built to preserve it.
+- **Distributional and access considerations.** Kalshi is a retail-accessible,
+  KYC'd venue; the "public" whose beliefs it prices is a particular,
+  self-selected slice of it. Reading a retail-market price as "the market" — let
+  alone as "the public" — is a framing choice a policymaker has to make
+  explicitly rather than by default.
+
+None of these are answered by "the forecasts are accurate." They are the
+substance of the sections that follow, and they are why the project's frame is
+public policy rather than trading or pure forecast evaluation.
+
 ## Prediction markets as one expectations instrument among several
 
 The FEDS paper positions Kalshi alongside surveys and derivatives rather than
@@ -81,11 +118,11 @@ and annual GDP growth were only listed in 2025. That asymmetry is precisely
 what makes the thin series the natural candidates for the manipulation-risk
 analysis in Section 3.
 
-## This project's five-part extension
+## This project's six-part extension
 
 The FEDS paper validates Kalshi as an accurate forecasting instrument. It does
 not ask whether, or how, that instrument should enter the policy process. This
-project takes up five questions that follow from that gap, mapped to the
+project takes up six questions that follow from that gap, mapped to the
 section files:
 
 1. **Manipulation and market-integrity risk** (`3_manipulation_risk.md`) —
@@ -97,10 +134,16 @@ section files:
 3. **Regulated vs. unregulated signal quality** (`5_polymarket_comparison.md`)
    — does CFTC regulation buy better signal, or just a legitimacy label,
    relative to Polymarket?
-4. **A concrete policy recommendation** (`6_policy_recommendation.md`) — a
+4. **Macroeconomic policy implementation** (`6_macro_policy_implementation.md`)
+   — through which concrete channels of monetary, fiscal, and macroprudential
+   policy could a distributional signal actually be used, what does the
+   *distribution* add beyond the point estimates officials already have, and
+   where does the reflexivity of acting on a market that bets on your own
+   decisions make use unsafe?
+5. **A concrete policy recommendation** (`7_policy_recommendation.md`) — a
    specific, falsifiable proposal with named safeguards, rather than
    "further research is needed."
-5. The replication that anchors all of the above (`2_replication.md`) — a
+6. The replication that anchors all of the above (`2_replication.md`) — a
    confirmation of the FEDS paper's core accuracy result on independently
    pulled data.
 

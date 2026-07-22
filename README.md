@@ -29,7 +29,7 @@ Reserve Board (the "FEDS paper"). A copy is included at
 
 The FEDS paper validates Kalshi as an accurate forecasting instrument. It
 does **not** ask whether, or how, that instrument should be built into the
-policy process. Five questions follow from that gap:
+policy process. Six questions follow from that gap:
 
 1. **Institutional adoption pathway** — What would it actually mean for the
    Fed or Treasury to use Kalshi data formally (dashboard, Beige Book
@@ -51,7 +51,14 @@ policy process. Five questions follow from that gap:
    side-by-side comparison. Eichengreen, Viswanath-Natraj, Wang and Wang
    (2025), cited in passing by the FEDS paper, use Polymarket data on Fed
    independence questions — a natural bridge for that comparison.
-5. **A concrete policy recommendation** — The FEDS paper stops at
+5. **Macroeconomic policy implementation** — Through which concrete channels
+   of monetary, fiscal, and macroprudential policy could a distributional
+   signal actually be used? What does the full risk-neutral *distribution*
+   add beyond the point estimates (futures, OIS) officials already have, and
+   where does the *reflexivity* of acting on a market that bets on the Fed's
+   own decisions make that use unsafe? (Includes at least one channel —
+   statutory fiscal triggers — that the analysis explicitly rules out.)
+6. **A concrete policy recommendation** — The FEDS paper stops at
    validation. This project ends with an actual proposal and named
    safeguards.
 
@@ -71,7 +78,8 @@ kalshi-macro-policy/
 │       ├── 3_manipulation_risk.md     # new: exposure limits, thin markets, manipulation
 │       ├── 4_institutional_pathway.md # new: how the Fed could formally use this
 │       ├── 5_polymarket_comparison.md # new: regulated vs. unregulated signal quality
-│       └── 6_policy_recommendation.md # new: the actual proposal
+│       ├── 6_macro_policy_implementation.md # new: monetary/fiscal/macroprudential channels + reflexivity
+│       └── 7_policy_recommendation.md # new: the actual proposal
 ├── src/
 │   ├── kalshi_utils.py            # ladder-of-strikes -> pdf -> mean/median/mode (paper's Section 3 method);
 │   │                              #   candlesticks_to_daily_ladder bridges the API to the pdf pipeline
@@ -162,11 +170,14 @@ https://docs.kalshi.com before a large pull.
 4. Pull overlapping Polymarket FOMC markets via `polymarket_api.py` and run
    notebook 03 for the regulated-vs-unregulated comparison in
    `5_polymarket_comparison.md`.
-5. Research and firm up `4_institutional_pathway.md` (FOMC minutes, speeches,
-   MPR — the source-verification `[DATA PLACEHOLDER]` items) — a literature/
-   policy section, not a data section.
-6. Finalize `6_policy_recommendation.md` last, once 3–5 give you concrete
-   evidence to set the safeguard thresholds.
+5. Research and firm up `4_institutional_pathway.md` and
+   `6_macro_policy_implementation.md` (FOMC minutes, speeches, MPR, TBAC
+   materials — the source-verification `[DATA PLACEHOLDER]` items) — literature/
+   policy sections, not data sections. Section 6 also draws on the Section 3
+   liquidity results to justify its manipulation-vs-reflexivity tradeoff.
+6. Finalize `7_policy_recommendation.md` last, once 3–6 give you concrete
+   evidence to set the safeguard thresholds and the real-economy-first
+   sequencing.
 
 The section drafts are complete prose with `[DATA PLACEHOLDER]` callouts
 marking every spot where a real number or a source-verified citation must be

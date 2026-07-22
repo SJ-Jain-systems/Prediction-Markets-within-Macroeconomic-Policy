@@ -110,6 +110,10 @@ it treats fed funds futures. The thin series are a different animal, and the
 $7M cap that reassures in the deep market is either binding-but-evadable or
 simply large relative to the book in the shallow ones. That asymmetry is the
 empirical basis for the **minimum-liquidity-floor safeguard** proposed in
-Section 6: a series should not be citable as an expectations measure until its
+Section 7: a series should not be citable as an expectations measure until its
 depth clears a threshold, precisely so that the manipulation surface analyzed
-here is closed before any official reliance begins.
+here is closed before any official reliance begins. Section 6 sharpens the
+asymmetry further: the thin real-economy series (GDP, recession) are the ones
+most exposed to the manipulation analyzed here, yet — because they price
+outcomes the Fed does *not* directly control — they are also the ones least
+exposed to the reflexivity problem that afflicts the deep fed funds series.
