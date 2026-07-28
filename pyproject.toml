@@ -37,8 +37,8 @@ dev = [
 
 # Flat-module layout: the modules live directly under src/ and are imported as
 # top-level modules (kalshi_utils, kalshi_api, polymarket_api, forecast_eval,
-# manipulation, event_study, calibration, ladder_validation). After
-# `pip install -e .` this makes those imports resolve everywhere, so the
+# manipulation, event_study, calibration, ladder_validation, policy_signals).
+# After `pip install -e .` this makes those imports resolve everywhere, so the
 # `sys.path.append("../src")` shim in the notebooks becomes redundant.
 [tool.setuptools]
 package-dir = { "" = "src" }
@@ -51,6 +51,7 @@ py-modules = [
     "event_study",
     "calibration",
     "ladder_validation",
+    "policy_signals",
 ]
 
 [tool.pytest.ini_options]

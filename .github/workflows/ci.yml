@@ -5,6 +5,15 @@ on:
     branches: ["**"]
   pull_request:
 
+# Least privilege: the pipeline only reads the repo.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref so a rapid push sequence doesn't queue.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,6 +29,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
 
       - name: Install package + dev extras
         run: pip install -e ".[dev]"

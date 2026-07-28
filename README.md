@@ -84,7 +84,9 @@ kalshi-macro-policy/
 │   ├── kalshi_utils.py            # ladder-of-strikes -> pdf -> mean/median/mode (paper's Section 3 method);
 │   │                              #   candlesticks_to_daily_ladder bridges the API to the pdf pipeline
 │   ├── kalshi_api.py              # thin client for Kalshi's public market-data API
-│   └── polymarket_api.py          # new: thin read-only client for Polymarket (Gamma + CLOB), for section 5
+│   ├── polymarket_api.py          # new: thin read-only client for Polymarket (Gamma + CLOB), for section 5
+│   ├── ladder_validation.py       # new: no-arbitrage / shape screen for a strike ladder (gate before ladder_to_pdf)
+│   └── policy_signals.py          # new: fed funds ladder -> discrete cut/hold/hike signal + two-sided-risk read (grounds section 6)
 │                                  #   (src/ is installed as importable modules via pyproject.toml)
 ├── tests/                        # new: pytest suite for the src/ pipeline
 │   ├── test_kalshi_utils.py      #   ladder->pdf, daily ladder, forecast-error helper

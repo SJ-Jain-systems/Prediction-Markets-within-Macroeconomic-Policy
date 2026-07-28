@@ -39,6 +39,33 @@ information, so a policymaker who reads only the mean is discarding the part of
 the signal that is genuinely new. Every channel below is evaluated on whether it
 uses that new part.
 
+### Making the distribution operational (`src/policy_signals.py`)
+
+The claim that "the mean is redundant but the distribution is not" is easy to
+assert and easy to hand-wave. `src/policy_signals.py` makes it a computation, so
+every channel below can be grounded in a number rather than a slogan. Given a
+fed funds strike ladder for a single meeting, `rate_decision_signal` reads it on
+the FOMC's discrete 25bp grid — the same object a CME-FedWatch table reports —
+and returns the full cut/hold/hike distribution, the modal and expected move, the
+dispersion (`uncertainty_bps`), and the asymmetry (`skew`). The ladder is first
+run through the no-arbitrage screen of `src/ladder_validation.py`, so a malformed
+or arbitraged pull is rejected rather than quietly turned into a plausible-looking
+signal.
+
+The field that carries this section's argument is `opposite_tail_prob`: the
+probability of a move *against* the market's expected direction. A fed funds
+futures quote or an OIS-implied path is a single number — it can say "the market
+expects roughly a hold on net" and nothing more. It structurally cannot say that,
+*at the same time*, the market prices (say) a 30% chance of a cut and a 30%
+chance of a hike around that flat expectation. `opposite_tail_prob` is exactly
+that omitted probability — the scalar cost of collapsing the distribution to its
+mean, and the concrete measure of what a distributional signal adds over the
+point estimates officials already hold. It is the quantity the risk-management
+channel (1b) consumes, and its two-sided-ness is precisely why the reflexivity
+discussion below treats the fed funds decision as the *most* fraught series to
+act on: the richer the distribution you can read, the sharper the temptation to
+act on it, and the sharper the feedback loop when you do.
+
 ## Channel 1 — Monetary policy conduct
 
 ### 1a. Calibrating and stress-testing forward guidance
