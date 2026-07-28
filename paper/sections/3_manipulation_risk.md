@@ -39,6 +39,45 @@ that a motivated actor would target.
   market over a short window (the 24–48 hours before an FOMC decision), where
   informed counter-trading may simply not arrive in time to correct a push.
 
+## The manipulation record beyond Hanson–Oprea
+
+The FEDS paper's lone citation understates how much is already known, and the
+fuller record cuts in exactly the direction this section argues. Snowberg,
+Wolfers, and Zitzewitz (2012), surveying prediction markets for economic
+forecasters, assemble the empirical evidence on manipulation, and it splits
+cleanly along the deep/thin line:
+
+- **In liquid markets, manipulation is typically transitory and
+  self-correcting.** Rhode and Strumpf placed the largest permitted random bets
+  on the Iowa Electronic Markets and found prices reverted almost immediately;
+  Camerer placed and then cancelled large pari-mutuel horse-racing bets and
+  produced no bandwagon of follow-on trades; laboratory prediction markets whose
+  participants were paid to distort prices (Hanson, Oprea, and Porter 2006;
+  Hanson et al. 2011) showed little effect on either prices or observers'
+  beliefs; and the one much-discussed "successful" case — a large trader propping
+  up a 2008 Clinton-nomination contract on Intrade — cost the manipulator heavily
+  and moved the mainstream-media narrative essentially once. This is the
+  deep-market reassurance the FEDS paper leans on, and it does hold for the fed
+  funds series.
+- **The documented failure mode is thin markets.** In the same survey, the
+  design flaws that actually break prediction-market forecasts "generally lead to
+  a lack of noise traders (or thin markets) that reduce incentives for
+  discovering, and trading on the basis of, private information." That is
+  precisely the GDP-growth and recession-probability series flagged above: too
+  few noise traders means informed counter-trading is under-incentivized and slow
+  to arrive — the same mechanism as the pre-FOMC-window concern in the
+  Hanson–Oprea point above. The noise-trader condition, not the headline $7M cap,
+  is the real dividing line between a robust series and a manipulable one.
+
+Read together, these convert this section's central asymmetry from an assertion
+into a result the wider literature already supports: the
+manipulation-resistance the FEDS paper documents is a property of *liquid*
+prediction markets specifically, and the thin macro series do not inherit it.
+This is the direct empirical basis for the minimum-liquidity floor of Section 7,
+which is best understood as a rule that enforces the noise-trader condition
+Snowberg, Wolfers, and Zitzewitz identify as the actual precondition for a
+trustworthy price.
+
 ## Research questions to answer with real data
 
 1. **Cost-to-move.** For the thinnest series (GDP growth, recession
@@ -102,6 +141,17 @@ series on a common log scale, with the $7M cap overlaid. The single chart —
 market the FEDS paper focuses on" — is the most persuasive original piece of
 evidence this project can add. It ships with a synthetic volume generator so it
 runs offline; the real pull is a drop-in once outbound Kalshi access exists.
+
+A natural extension, and an original diagnostic the liquidity chart sets up:
+apply the weak-form-efficiency test Snowberg, Wolfers, and Zitzewitz (2012) cite
+— the augmented Dickey–Fuller / KPSS random-walk checks Leigh, Wolfers, and
+Zitzewitz used on the Saddam-Hussein contracts — to the deep fed funds series
+versus the thin series on the same pull. A series whose price is *not* a random
+walk is showing the exploitable predictability the survey associates with too
+few noise traders, which turns the minimum-liquidity floor of Section 7 from a
+round-number cap into a data-driven, testable threshold: cite a series only once
+its price passes the weak-form-efficiency screen its deep-market cousins already
+pass.
 
 ## The section's conclusion (to firm up once the numbers land)
 

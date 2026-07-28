@@ -66,6 +66,34 @@ recommendation follows from this project's evidence rather than from taste.
    futures probabilities, without implying endorsement of betting markets as a
    policy input.
 
+## The far pole: "targeting the forecast"
+
+It is worth naming the more radical position this recommendation deliberately
+stops short of, because doing so makes the recommendation a considered point on a
+spectrum rather than an isolated proposal. Sumner (2018), drawing on Svensson's
+"target the forecast" principle, argues that a central bank should not merely
+*read* a market forecast but eventually *set its instrument wherever the market
+expects the target to be hit* — implemented through a Fed-funded nominal-GDP
+(NGDP) futures market, of which the Mercatus/Hypermind NGDP contracts he studies
+are a demonstration. That is the far pole of the same continuum: this project's
+supplement-not-replace dashboard is the cautious near rung; Sumner's
+market-as-instrument is the aspirational far rung.
+
+Two things about that pole sharpen, rather than threaten, the recommendation
+here. First, Sumner's proposal is *consistent with* the exogeneity logic of
+Section 6, not a counterexample to it: his NGDP contract prices an outcome the
+Fed does not directly control, which is exactly why it escapes the reflexivity
+trap that afflicts a market pricing the Committee's own rate decision — the same
+reason the displayed panel below leads with the real-economy distributions.
+Second, Sumner supplies the cleanest institutional precedent for the adoption
+path: the TIPS market, created in 1997, began surfacing market-implied inflation
+expectations in FOMC discussions soon after — the "a market signal graduates
+into the policy conversation" trajectory a Kalshi dashboard would follow. The
+difference this project insists on is the safeguard set: the case for
+market-based targeting predates the thin-market manipulation surface analyzed in
+Section 3, which is why the near rung — a safeguarded, clearly-labeled
+supplement — not the far one, is the defensible first step today.
+
 ## Recommended concrete first step
 
 Propose the *minimal* defensible step, not a sweeping one. Concretely, one of:

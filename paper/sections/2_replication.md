@@ -40,6 +40,19 @@ real pull. `src/kalshi_api.py` provides the market-data client, and
 notebook flags: it takes one daily candlestick series per strike and assembles
 the per-day ladder that `ladder_to_pdf` consumes.
 
+The ladder-to-density step is not an ad hoc trick; it is the standard reading of
+a family of prediction-market contracts. Snowberg, Wolfers, and Zitzewitz (2012),
+surveying prediction markets for economic forecasters, classify a
+"winner-take-all" contract — one that pays a fixed amount if an outcome occurs —
+as pricing the *probability* of that outcome, and an "index" contract as pricing
+its *expected value*. A Kalshi "exceeds strike X" ladder is exactly a family of
+winner-take-all contracts, so its price schedule across strikes is the
+risk-neutral CDF of the target variable, and differencing across the ladder
+recovers the density that `ladder_to_pdf` returns. This gives the FEDS paper's
+Section 3 method a textbook grounding independent of the FEDS derivation itself,
+and it is the reason the same pipeline runs unchanged on CPI, GDP, and recession
+ladders, not just the fed funds rate.
+
 > **[DATA PLACEHOLDER]** Insert the re-plotted Figure 1 on independently
 > pulled Kalshi fed funds rate data (FEDS window: 2022–2025), with real fed
 > funds futures settlement and the SME band overlaid. Report whether the

@@ -39,6 +39,18 @@ information, so a policymaker who reads only the mean is discarding the part of
 the signal that is genuinely new. Every channel below is evaluated on whether it
 uses that new part.
 
+Snowberg, Wolfers, and Zitzewitz (2012) push this one step further: because
+prediction-market prices co-move in response to news, an event study on that
+co-movement can be used to *uncover and test the economic model* traders are
+pricing, not merely to confirm that the moments respond. Applied here, that
+upgrades the replication of the FEDS event study (Section 2) from a descriptive
+result — the implied distribution's variance and skew react to FOMC news — into
+a test of *which* reaction function the market holds: does the density shift the
+way a Phillips-curve response, or a risk-management response, would predict? That
+is an analytical step the FEDS paper's descriptive event study does not take, and
+it is one of the clearest places a distributional signal earns its keep over the
+point estimates officials already hold.
+
 ### Making the distribution operational (`src/policy_signals.py`)
 
 The claim that "the mean is redundant but the distribution is not" is easy to
@@ -191,7 +203,17 @@ series (fed funds) is the one where reflexivity bites *hardest*, while the thin
 real-economy series (where manipulation bites hardest, per Section 3) are where
 the signal is most genuinely *exogenous* to the decision. The two risks —
 manipulation and reflexivity — trade off across the menu of series in opposite
-directions. That tension is itself an argument for a distributional,
+directions.
+
+This is also why Sumner's (2018) case for a nominal-GDP (NGDP) futures market
+sits more comfortably than a fed funds one. NGDP is a real-economy outcome the
+Fed does not mechanically set, so a market that prices it is exogenous to the
+policy choice in exactly the way the reflexivity argument requires — the
+enthusiasm for market-based targeting and the caution about reflexivity point the
+*same* direction on which variable to build on, namely a goal variable rather
+than the instrument. Sumner's proposal is developed as the far pole of the
+recommendation in Section 7; what matters here is that it is an instance of, not
+an exception to, the exogeneity rule this section derives. That tension is itself an argument for a distributional,
 multi-series data product rather than a single headline "market expects a cut"
 number: no one series is clean on both axes, but the panel read together, with
 each series labeled by which risk dominates it, is far more defensible than any

@@ -92,9 +92,13 @@ kalshi-macro-policy/
 │   ├── test_kalshi_utils.py      #   ladder->pdf, daily ladder, forecast-error helper
 │   └── test_api_clients.py       #   URL building, pagination, retry wiring (HTTP mocked)
 ├── docs/
-│   └── data_schema.md            # new: shapes a real Kalshi/Polymarket pull must have
+│   ├── data_schema.md            # new: shapes a real Kalshi/Polymarket pull must have
+│   └── paper_integration_ideas.md  # new: how Sumner (2018) + SWZ (2012) plug into the sections
 ├── references/
-│   └── diercks_katz_wright_2026.pdf
+│   ├── README.md                     # bibliography: full citation + relevance for each PDF
+│   ├── diercks_katz_wright_2026.pdf  # the FEDS paper this project extends
+│   ├── sumner_2018.pdf               # NGDP futures / "target the forecast" (Mercatus)
+│   └── snowberg_wolfers_zitzewitz_2012.pdf  # prediction-markets survey (manipulation, contract types)
 ├── .github/workflows/ci.yml      # new: lint + tests + offline notebook execution
 ├── .pre-commit-config.yaml       # new: ruff, ruff-format, nbstripout
 ├── pyproject.toml                # new: packaging + ruff/pytest config
