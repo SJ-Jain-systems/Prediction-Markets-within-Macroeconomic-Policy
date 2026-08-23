@@ -1,6 +1,12 @@
 """Unit tests for the probability-calibration scoring in ``calibration``.
 
-Pure and deterministic -- no network, no RNG.
+Pure and deterministic, no network and no RNG.
+
+This is the correctly named home for the calibration tests. It supersedes both
+``tests/test_callibration.py`` (an empty file with a misspelled name, called out
+in TODO.md) and ``tests/test_calibration_new.py`` (the working tests under a
+placeholder name). Delete those two files when you add this one so there is a
+single, correctly named test module.
 """
 
 from __future__ import annotations
@@ -54,13 +60,13 @@ class TestReliabilityTable:
         assert row["bin_upper"] == pytest.approx(1.0)
 
     def test_empty_bins_are_omitted(self):
-        # All forecasts land in one bin -> exactly one row despite n_bins=10.
+        # All forecasts land in one bin, so exactly one row despite n_bins=10.
         table = cal.reliability_table([0.25, 0.25, 0.25], [0, 1, 0], n_bins=10)
         assert len(table) == 1
         assert table.iloc[0]["n"] == 3
 
     def test_gap_positive_when_overconfident(self):
-        # Forecast 0.9 but the event happens only half the time -> positive gap.
+        # Forecast 0.9 but the event happens only half the time, so a positive gap.
         table = cal.reliability_table([0.9, 0.9], [1, 0])
         assert table.iloc[0]["gap"] == pytest.approx(0.4)
 
