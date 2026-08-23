@@ -47,7 +47,7 @@ import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -67,7 +67,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 def _to_unix_ts(date_str: str) -> int:
     """Parse a YYYY-MM-DD date into a UTC unix timestamp (seconds)."""
-    dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=UTC)
     return int(dt.timestamp())
 
 
