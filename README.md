@@ -110,7 +110,7 @@ and 3.12, so a broken pipeline gets caught before it lands.
 │   └── polymarket_api.py     thin read-only Polymarket client (Gamma + CLOB)
 ├── tests/                pytest suite for the pipeline above
 ├── docs/                 data_schema.md + paper_integration_ideas.md
-├── references/           the FEDS paper + Sumner (2018) + Snowberg–Wolfers–Zitzewitz (2012)
+├── references/           FEDS paper + Kagan–Baiocchi (2026) + Sumner (2018) + Snowberg–Wolfers–Zitzewitz (2012)
 ├── data/                 raw + processed pulls (gitignored)
 ├── TODO.md               the honest what-is-left list
 └── pyproject.toml        packaging + ruff/pytest config

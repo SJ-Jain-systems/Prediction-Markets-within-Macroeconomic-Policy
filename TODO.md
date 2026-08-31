@@ -28,6 +28,11 @@ the notebooks, then chase down the source-verification items in parallel.
 - [ ] Reproduce the Table 3 numbers (MAE/RMSE for headline CPI, core CPI,
       unemployment, fed funds) with Diebold–Mariano p-values. Confirm the exact
       FEDS figures against the PDF before quoting them as targets.
+- [ ] Run `calibration.calibration_report()` on the Economics-category "Yes"
+      prices by horizon and check the Brier column against the Kagan & Baiocchi
+      benchmark in `references/kagan_baiocchi_2026_brier_by_category.csv`
+      (0.108 at 3-Month → 0.066 at Close). This is the external calibration
+      target for §2; keep the interested-party caveat attached.
 - [ ] Get the NY Fed Survey of Market Expectations PDFs and script their
       ingestion (they publish as per-cycle PDFs, not a clean series).
 - [ ] Sort out the Bloomberg consensus. It is proprietary. If it is not
@@ -51,6 +56,11 @@ the notebooks, then chase down the source-verification items in parallel.
 - [ ] Optional but nice: run the weak-form-efficiency (ADF / KPSS) screen on the
       deep fed funds series vs. the thin ones, to turn the liquidity floor into a
       data-driven threshold rather than a round number.
+- [ ] Reproduce the volume→Brier "learning curve" on the real pull with
+      `calibration.volume_stratified_calibration`, per series, and read off the
+      volume at which each series crosses the 0.05 Brier line. This is the
+      calibration-adequacy anchor for the §7 floor (Kagan & Baiocchi's second
+      axis); the helper and its tests are already in `src/calibration.py`.
 
 ## Institutional pathway (section 4)
 

@@ -75,6 +75,46 @@ Bloomberg consensus for core CPI and unemployment, and provides a
 > reported alongside with Diebold–Mariano p-values. Confirm the exact FEDS
 > figures against the PDF's Table 3 before asserting them.
 
+### Calibration — a third check, with an external benchmark
+
+Figure 1 tests the *point* forecast (mean absolute error) and Table 3 tests
+*accuracy* against professional benchmarks. Neither tests the probabilities
+*as probabilities*: a ladder can produce a low-error mean and still be badly
+calibrated, its "70%" events happening only half the time. `src/calibration.py`
+supplies that third lens — Brier score, the Murphy reliability/resolution/
+uncertainty decomposition, and a per-bin reliability table — on the same
+risk-neutral "Yes" prices the density method already returns.
+
+What that check has lacked is an external target to check against. Kagan and
+Baiocchi (2026), a Kalshi Research working paper, supply one on the exact
+category this project cares about. Scoring the platform's complete resolved
+history (2.24 million markets, 2021–mid-2026), they report that Economics is
+Kalshi's cleanest category: its Brier score declines near-linearly and
+monotonically from **0.108 at a 3-Month horizon to 0.066 at Close**, with no
+hump or reversal, precisely because Economics markets resolve against
+pre-scheduled, unambiguous releases (a CPI print, a payrolls report, a GDP
+estimate) — the same price-discovery setting the FEDS paper builds its
+macro-benchmark case on. That makes it the complementary *calibration* result to
+the FEDS *accuracy* result: two independent lenses, the same category, the same
+conclusion.
+
+One provenance caveat must be stated loudly and carried wherever these numbers
+are quoted. Kagan and Baiocchi are the exchange's own research team, where
+Diercks, Katz, and Wright are the Federal Reserve Board. This project's spine is
+independence and the regulated-vs-unregulated-signal question, so their figures
+enter as *corroborating, interested-party* evidence with the conflict named —
+the same discipline the README already applies to the Bloomberg-consensus
+substitution. Naming the conflict is what lets the corroboration count.
+
+> **[DATA PLACEHOLDER]** When the real Kalshi pull lands, run
+> `calibration.calibration_report()` on the Economics-category "Yes" prices by
+> horizon and compare the Brier column against
+> `references/kagan_baiocchi_2026_brier_by_category.csv` (Table 1, verified
+> against the source PDF). A pull that reproduces the ~0.108 → 0.066 monotone
+> decline is validated against a published full-history number, not only against
+> this project's own synthetic generator — turning "reproduces the shape" into
+> "matches an external benchmark" for the one category that matters here.
+
 ## Data gaps to solve (and how we handle each)
 
 - **Kalshi trade-level data** — public and unauthenticated via

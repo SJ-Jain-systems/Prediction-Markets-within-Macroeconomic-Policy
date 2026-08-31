@@ -78,6 +78,43 @@ which is best understood as a rule that enforces the noise-trader condition
 Snowberg, Wolfers, and Zitzewitz identify as the actual precondition for a
 trustworthy price.
 
+## Calibration adequacy: a second, independent case for the floor
+
+The Snowberg–Wolfers–Zitzewitz argument makes the floor a *manipulation*
+safeguard. Kagan and Baiocchi (2026) supply a second axis for setting the same
+number, from an entirely different measurement, and the two point the same way.
+
+Scoring Kalshi's full resolved history, they find that calibration behaves like
+a **learning curve in volume**: within every time horizon, Brier score falls
+monotonically as the event-volume threshold rises (their Figures 12–15 and
+Table 2, where Brier at Close drops from 0.0635 for markets under $10K of event
+volume to 0.0099 for markets above $200K). Below some volume, a market is not
+merely thin in the manipulation sense — it is *measurably worse calibrated*.
+That is a calibration-based argument for a depth floor running exactly parallel
+to the manipulation-based one.
+
+The threshold is category-specific, and the specificity cuts in this project's
+favor. At the 1-Day horizon, Politics and Economics markets are already below
+the 0.05 Brier reference line at volumes of a few thousand dollars, while Sports
+and Mentions markets cross it only at roughly two orders of magnitude more
+volume. A single dollar floor is therefore not category-neutral: the
+Economics/macro series clear the calibration bar at comparatively low volume,
+which *supports* starting there — the project's real-economy-first sequencing —
+while cautioning that the floor be expressed per series rather than as one
+platform-wide number.
+
+The net effect is that the Section 7 floor can now be defended two ways at once.
+A series should be deep enough that (a) a $7M position cannot move its implied
+probability by more than a few points (the cost-to-move argument above) **and**
+(b) it sits on the flat, well-calibrated part of the volume→Brier curve (Kagan
+and Baiocchi). A safeguard justified on both manipulation-resistance and
+calibration-adequacy is materially stronger than one resting on either alone.
+The same interested-party caveat applies: these are the exchange's own figures,
+cited as corroboration with the conflict named, not leaned on silently. The
+volume-stratified Brier curve is reproducible on this project's own pull via
+`calibration.volume_stratified_calibration` (see `src/calibration.py`), so the
+claim can eventually be checked here rather than only cited.
+
 ## Research questions to answer with real data
 
 1. **Cost-to-move.** For the thinnest series (GDP growth, recession

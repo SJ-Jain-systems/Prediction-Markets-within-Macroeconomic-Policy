@@ -6,6 +6,16 @@ the section/file it touches so the work is a drop-in, not a rewrite. Companion
 data lives in `references/kagan_baiocchi_2026_brier_by_category.csv` (Table 1,
 transcribed).
 
+**Status: integrated.** Both ideas are now woven into the section prose —
+idea 1 into `2_replication.md` (the "Calibration — a third check, with an
+external benchmark" subsection) and idea 2 into `3_manipulation_risk.md` (the
+"Calibration adequacy: a second, independent case for the floor" subsection) and
+`7_policy_recommendation.md` (the two-axis defense of the liquidity floor). The
+follow-up `volume_stratified_calibration` helper sketched in §2 below is now
+implemented and tested in `src/calibration.py`. The companion CSV has been
+verified cell-for-cell against Table 1 of the source PDF. This note is retained
+as the rationale record.
+
 **What the paper is.** The first at-scale calibration study of a single
 regulated exchange: 2,243,741 resolved Kalshi markets, 2021 through mid-2026,
 across eleven categories. It scores exactly what `src/calibration.py` already
@@ -97,8 +107,9 @@ sketched as a separate follow-up for `src/calibration.py` and
 
 ## Housekeeping
 
-- Add the PDF at `references/kagan_baiocchi_2026.pdf` and a one-line entry to
-  `references/README(references).md`.
+- ~~Add the PDF at `references/kagan_baiocchi_2026.pdf` and a one-line entry to
+  `references/README(references).md`.~~ Done — the PDF is at that path and the
+  references README carries a "Corroborating evidence (interested party)" entry.
 - The paper also flags, as its own future work, a **conviction-weighted accuracy**
   measure (crediting a market in proportion to how far its price moved beyond 50
   cents). That is a natural complement to `forecast_eval` if the project ever

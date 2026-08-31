@@ -40,10 +40,24 @@ recommendation follows from this project's evidence rather than from taste.
    *not* treated as a citable expectations measure, modeled on how the Fed
    already treats thin or sparse financial-market data with explicit caution.
 
+   The floor now rests on two independent findings, not one. Section 3's
+   cost-to-move argument makes it a *manipulation* safeguard; Kagan and Baiocchi
+   (2026), scoring Kalshi's full resolved history, make it a *calibration* one —
+   Brier score falls monotonically with event volume within every horizon
+   (their Table 2: 0.0635 below $10K of volume to 0.0099 above $200K at Close),
+   so a series below the floor is measurably worse calibrated, not merely
+   easier to push. Because their crossing points are category-specific — the
+   Economics/macro series clear the 0.05 Brier line at far lower volume than
+   Sports or Mentions — the threshold should be expressed *per series*, which
+   also supports leading with the real-economy series (below). Cited as
+   exchange-authored corroboration with the conflict named, per Section 2.
+
    > **[DATA PLACEHOLDER]** Set the numeric threshold from Section 3's
    > cost-to-move and liquidity results (`notebooks/02`), so the floor is
    > calibrated to "deep enough that a $7M position cannot move the implied
-   > probability by more than a few points," not chosen arbitrarily.
+   > probability by more than a few points" *and* sits on the flat part of the
+   > volume→Brier curve, not chosen arbitrarily. The volume-stratified Brier
+   > curve is reproducible via `calibration.volume_stratified_calibration`.
 
 2. **Position-concentration monitoring in the pre-FOMC window**, leveraging
    Kalshi's existing CFTC large-trader reporting obligations as a DCM.
