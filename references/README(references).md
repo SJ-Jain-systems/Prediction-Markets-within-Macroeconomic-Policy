@@ -16,6 +16,32 @@ PCE, unemployment, payrolls, GDP, recession probability, FOMC decisions) and
 gives the model-free ladder-of-strikes → risk-neutral density method this
 project's `src/kalshi_utils.py` implements.
 
+## Corroborating evidence (interested party — cite with the conflict named)
+
+**Kagan, Nicole, and Rubens Baiocchi (2026).** "Calibration in Prediction
+Markets: Theory and Evidence." Kalshi Research working paper, August 2026.
+→ `kagan_baiocchi_2026.pdf`
+
+The first at-scale calibration study of a single U.S.-regulated exchange: the
+complete resolved history of Kalshi — 2,243,741 markets across eleven categories,
+2021 through mid-2026. It scores exactly what `src/calibration.py` computes
+(Brier score, the Murphy reliability/resolution/uncertainty decomposition,
+reliability diagrams), reporting Brier falling from ≈0.087 at a 3-Month horizon
+to below 0.02 at Close, reliability diagrams tracking the 45° line, and
+calibration improving near-monotonically with both trading volume and unique-
+trader count. Economics is its cleanest category (Brier 0.108 at 3-Month →
+0.066 at Close, monotone), giving §2 an external calibration benchmark and §§3,7
+a second, calibration-based axis for the minimum-liquidity floor. **Provenance
+caveat:** this is authored by *Kalshi's own research team*, where
+Diercks–Katz–Wright is a Federal Reserve Board paper. It is cited throughout as
+corroborating, interested-party evidence with the conflict named explicitly —
+the same discipline applied to the Bloomberg-consensus substitution — never
+leaned on silently. Table 1 is transcribed to
+`kagan_baiocchi_2026_brier_by_category.csv` (verified against the source PDF);
+the integration rationale is in `docs/kagan_baiocchi_2026_integration.md`.
+Relevant to the replication (§2), manipulation-risk (§3), and
+policy-recommendation (§7) sections.
+
 ## Supporting literature
 
 **Sumner, Scott (2018).** "How Prediction Markets Can Improve Monetary Policy:

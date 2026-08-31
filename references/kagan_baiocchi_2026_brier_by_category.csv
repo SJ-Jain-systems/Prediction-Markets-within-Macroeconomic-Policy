@@ -1,9 +1,9 @@
 # Brier score by category and time-horizon-to-resolution.
 # Source: Kagan & Baiocchi (2026), "Calibration in Prediction Markets: Theory
 # and Evidence" (Kalshi Research working paper, August 2026), Table 1.
-# Transcribed from the PDF for benchmarking; VERIFY against the source before
-# quoting as a target. Interested-party (exchange-authored) evidence -- see
-# docs/kagan_baiocchi_2026_integration.md. n is total resolved markets in the
+# Transcribed from the PDF for benchmarking and VERIFIED cell-for-cell against
+# Table 1 of the source PDF. Interested-party (exchange-authored) evidence --
+# see docs/kagan_baiocchi_2026_integration.md. n is total resolved markets in the
 # category over the full 2021-mid-2026 sample. Exotics/Combos excluded.
 category,n,brier_3mo,brier_2mo,brier_1mo,brier_1wk,brier_1day,brier_1hr,brier_close
 Climate,112242,0.069,0.065,0.128,0.051,0.112,0.013,0.013

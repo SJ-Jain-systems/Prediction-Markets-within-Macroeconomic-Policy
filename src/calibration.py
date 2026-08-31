@@ -194,3 +194,78 @@ def calibration_report(
         ece=ece,
         table=table,
     )
+
+
+def volume_stratified_calibration(
+    pred_probs: np.ndarray | list[float],
+    outcomes: np.ndarray | list[float],
+    volumes: np.ndarray | list[float],
+    bucket_edges: np.ndarray | list[float] = (0.0, 1e4, 5e4, 2e5, np.inf),
+) -> pd.DataFrame:
+    """Brier score stratified by an event-level depth measure (volume or traders).
+
+    Kagan and Baiocchi (2026) document that Kalshi's calibration behaves like a
+    "learning curve" in participation: within a fixed time horizon, Brier score
+    falls near-monotonically as event volume (or unique-trader count) rises. This
+    is the second, independent axis -- alongside cost-to-move -- for setting the
+    minimum-liquidity floor argued in the paper's Sections 3 and 7. This helper
+    reproduces that curve on an independent pull: it buckets each market by a
+    depth measure and scores the Brier of each bucket, the shape of their Table 2
+    and Table 3.
+
+    Parameters
+    ----------
+    pred_probs : array-like of float in [0, 1]
+        Forecast probabilities, one per resolved market (e.g. the "Yes" price at
+        a fixed horizon).
+    outcomes : array-like of {0, 1}
+        The realized binary outcome for each market.
+    volumes : array-like of float >= 0
+        The depth measure to stratify on -- dollar volume or unique-trader count
+        -- one value per market, aligned with ``pred_probs``.
+    bucket_edges : array-like of float
+        Monotone-increasing bucket boundaries; each market falls in
+        ``[edge_i, edge_{i+1})``. The default mirrors the paper's event-volume
+        buckets (<$10K, $10K-$50K, $50K-$200K, >=$200K). Use finite edges for a
+        trader-count stratification. Needs at least two edges.
+
+    Returns
+    -------
+    pd.DataFrame
+        One row per non-empty bucket, columns ``['bucket_lower', 'bucket_upper',
+        'n', 'brier', 'base_rate']`` sorted by bucket. A monotone-decreasing
+        ``brier`` down the rows is the learning-curve-in-depth pattern; the
+        bucket at which it crosses a reference level (the paper uses 0.05) is the
+        empirical anchor for a per-series liquidity floor.
+    """
+    p, y = _validate(np.asarray(pred_probs), np.asarray(outcomes))
+    v = np.asarray(volumes, dtype=float)
+    if v.shape != p.shape:
+        raise ValueError("volumes must be a 1-D array aligned with pred_probs")
+    if np.any(v < 0.0):
+        raise ValueError("volumes must all be non-negative")
+    edges = np.asarray(bucket_edges, dtype=float)
+    if edges.ndim != 1 or edges.size < 2:
+        raise ValueError("bucket_edges must be a 1-D array of at least two edges")
+    if np.any(np.diff(edges) <= 0.0):
+        raise ValueError("bucket_edges must be strictly increasing")
+
+    rows = []
+    for b in range(edges.size - 1):
+        lo, hi = edges[b], edges[b + 1]
+        mask = (v >= lo) & (v < hi)
+        count = int(mask.sum())
+        if count == 0:
+            continue
+        rows.append(
+            {
+                "bucket_lower": float(lo),
+                "bucket_upper": float(hi),
+                "n": count,
+                "brier": float(np.mean((p[mask] - y[mask]) ** 2)),
+                "base_rate": float(y[mask].mean()),
+            }
+        )
+    return pd.DataFrame(
+        rows, columns=["bucket_lower", "bucket_upper", "n", "brier", "base_rate"]
+    )
